@@ -5,20 +5,24 @@
     </head>
     <body>
         <h1>Welcome {{ username }}!</h1>
-        <h2> Threads in forum </h2>
+        <h3> Posts </h3>
         <ul>
-            {% for thread in threads %}
-            <li><a href="{% url 'theforum:thread' thread.slug %}">{{ thread.name }}</a></li>
-            {% endfor %}
+            {% if posts|length == 0 %}
+                No posts yet
+            {% else %}
+                {% for post in posts %}
+                    <li><a href="{% url 'theforum:post' post.slug %}">{{ post.title }}</a></li>
+                {% endfor %}
+            {% endif %}
         </ul>
         
-
         <br>
-        <form action="{% url 'theforum:homepage' %}" method="post">
+        <form action="{% url 'theforum:thread' thread.slug %}" method="post">
             {% csrf_token %}
             {{ form }}
-            <button>Create Thread</button>
+            <button>Create Post</button>
         </form>
+
         <br>
 
         <form action="{% url 'theforum:logout' %}" method="post">
